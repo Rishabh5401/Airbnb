@@ -86,10 +86,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// Make current user and flash messages available in all templates
 app.use((req, res, next) => {
-  res.locals.currUser = req.user; // or req.session.user if using sessions
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
+  // `currUser` will always exist in templates
+  res.locals.currUser = req.user || null;
+
+  // Flash messages
+  res.locals.success = req.flash("success") || null;
+  res.locals.error = req.flash("error") || null;
+
   next();
 });
 
