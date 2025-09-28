@@ -61,7 +61,7 @@ store.on("error",()=>{
 
 const sessionOptions={
     store,
-    secret:process.env.secret,
+    secret:process.env.SECRET,
     resave:false,
     saveUninitialized:true,
     cookie:{
@@ -74,31 +74,23 @@ const sessionOptions={
 // app.get("/",(req,res)=>{
 //     res.send("Hi , i am root");
 // });
-
-
 app.use(session(sessionOptions));
 app.use(flash());
 
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-// Make current user and flash messages available in all templates
+// Middleware AFTER passport so req.user is populated
 app.use((req, res, next) => {
-  // `currUser` will always exist in templates
-  res.locals.currUser = req.user || null;
-
-  // Flash messages
-  res.locals.success = req.flash("success") || null;
-  res.locals.error = req.flash("error") || null;
-
+  res.locals.currUser = req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
 });
-
-
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     // console.log(res.locals.success);
