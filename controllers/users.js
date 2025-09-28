@@ -26,11 +26,21 @@ module.exports.signup=async (req, res) => {
   res.render("users/login.ejs");
 };
 
-module.exports.login=async (req, res) => {
-    req.flash("success", "Welcome Back to Wanderlust! You are Logged In!");
-    let redirectUrl=res.locals.redirectUrl|| "/listings";
-    res.redirect(redirectUrl);
-  };
+// module.exports.login=async (req, res) => {
+//     req.flash("success", "Welcome Back to Wanderlust! You are Logged In!");
+//     let redirectUrl=res.locals.redirectUrl|| "/listings";
+//     res.redirect(redirectUrl);
+//   };
+module.exports.login = (req, res) => {
+  // Success flash
+  req.flash("success", `Welcome back, ${req.user.username}!`);
+
+  // Redirect to intended page or default
+  const redirectUrl = req.session.returnTo || "/listings";
+  delete req.session.returnTo; // remove after redirect
+  res.redirect(redirectUrl);
+};
+
 
 module.exports.logout=(req, res, next) => {
   req.logout((err) => {

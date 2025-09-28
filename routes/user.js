@@ -18,7 +18,7 @@ router.route("/login")
     failureRedirect: "/login",
     failureFlash: true,
   }),
-  login
+  login,
 );
 
 

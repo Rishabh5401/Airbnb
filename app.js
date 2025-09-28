@@ -85,15 +85,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Middleware AFTER passport so req.user is populated
-app.use((req, res, next) => {
-  res.locals.currUser = req.user;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
-    // console.log(res.locals.success);
     res.locals.error=req.flash("error");
     res.locals.currUser=req.user;
     next();

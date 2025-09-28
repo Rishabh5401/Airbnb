@@ -18,9 +18,18 @@
   .filter p{
     font-size: 0.8rem;
   }
-  .tax-info{
-    display: none;
+  /* Existing tax-info is hidden by default */
+.tax-info {
+  display: none;
+}
+
+/* Always show tax info on mobile */
+@media (max-width: 768px) {
+  .tax-info {
+    display: inline !important;
   }
+}
+
   .tax-toggle{
     border: 1px solid black;
     border-radius: 1rem;
@@ -30,6 +39,18 @@
     display: flex;
     align-items: center;
   }
+  #filters {
+  display: flex;
+  flex-wrap: nowrap; /* no wrap */
+  overflow-x: auto; /* horizontal scroll */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  padding: 0.5rem;
+}
+.filter {
+  flex: 0 0 auto; /* prevent shrinking */
+  margin-right: 1rem;
+}
+
   
 </style>
   <body>
